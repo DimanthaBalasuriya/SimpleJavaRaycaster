@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 
-public class Camera implements KeyListener, MouseListener {
+public class Camera implements KeyListener {
     public double xPos, yPos, xDir, yDir, xPlane, yPlane;
     public boolean left, right, forward, back, rleft, rright;
     public final double MOVE_SPEED = .02;
@@ -18,6 +18,11 @@ public class Camera implements KeyListener, MouseListener {
         yDir = yd;
         xPlane = xp;
         yPlane = yp;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
     public void keyPressed(KeyEvent key) {
@@ -99,35 +104,5 @@ public class Camera implements KeyListener, MouseListener {
             xPlane = xPlane * Math.cos(-ROTATION_SPEED) - yPlane * Math.sin(-ROTATION_SPEED);
             yPlane = oldxPlane * Math.sin(-ROTATION_SPEED) + yPlane * Math.cos(-ROTATION_SPEED);
         }
-    }
-
-    public void keyTyped(KeyEvent arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 }

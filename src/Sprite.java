@@ -1,24 +1,11 @@
 public class Sprite {
+    public double x;
+    public double y;
+    public int texture;
 
-    double xPosition;
-    double yPosition;
-
-    double distanceToCamera;
-
-    double cameraWallDistanceFactor;
-
-    double xTransformed;
-    double yTransformed;
-
-    private Texture texture;
-
-    public Sprite(double xPosition, double yPosition, Texture texture) {
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
+    public Sprite(double x, double y, int texture) {
+        this.x = x;
+        this.y = y;
         this.texture = texture;
-    }
-
-    public Texture getTexture() {
-        return texture;
     }
 }

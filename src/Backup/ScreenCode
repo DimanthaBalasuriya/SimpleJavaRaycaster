@@ -7,12 +7,7 @@ public class Screen {
     public double xPos, yPos, xDir, yDir, xPlane, yPlane;
     public ArrayList<Texture> textures;
 
-    public ArrayList<Sprite> sprite;
-    public int spriteOrder[];
-    public double spriteDistance[];
-    public double zbuffer[];
-
-    public Screen(int[][] m, int mapW, int mapH, ArrayList<Texture> tex, int w, int h, double x, double y, double xd, double yd, double xp, double yp, ArrayList<Sprite> spritea) {
+    public Screen(int[][] m, int mapW, int mapH, ArrayList<Texture> tex, int w, int h, double x, double y, double xd, double yd, double xp, double yp) {
         map = m;
         mapWidth = mapW;
         mapHeight = mapH;
@@ -25,10 +20,6 @@ public class Screen {
         yDir = yd;
         xPlane = xp;
         yPlane = yp;
-        sprite = spritea;
-        spriteOrder = new int[19];
-        spriteDistance = new double[19];
-        zbuffer = new double[width];
     }
 
     public int[] update(Camera camera, int[] pixels) {
@@ -82,10 +73,8 @@ public class Screen {
 
         }
 
-        double perpWallDist = 0;
-
         //Wall casting
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < width; x = x + 1) {
             double cameraX = 2 * x / (double) (width) - 1;
             double rayDirX = camera.xDir + camera.xPlane * cameraX;
             double rayDirY = camera.yDir + camera.yPlane * cameraX;
@@ -95,7 +84,7 @@ public class Screen {
             double sideDistY;
             double deltaDistX = Math.sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
             double deltaDistY = Math.sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
-
+            double perpWallDist;
             int stepX, stepY;
             boolean hit = false;
             int side = 0;
@@ -157,25 +146,7 @@ public class Screen {
                     color = (textures.get(texNum).pixels[texX + (texY * textures.get(texNum).SIZE)]);
                 pixels[x + y * (width)] = color;
             }
-            zbuffer[x] = perpWallDist;
-        }
-
-        //Sprite casting
-        for (int i = 0; i < sprite.size(); i++) {
-            spriteOrder[i] = i;
         }
         return pixels;
     }
-
-/*    private void sortSprites(int[] spriteOrder, double[] spriteDistance, int amount) {
-        for (int i = 0; i < amount; i++) {
-            sprites.get(i).y = spriteDistance[i];
-            sprites.get(i).x = spriteOrder[i];
-        }
-        for (int i = 0; i < amount; i++) {
-            spriteDistance[i] = sprites.get(amount - i - 1).y;
-            spriteOrder[i] = (int) sprites.get(amount - i - 1).x;
-        }
-    }*/
-
 }
