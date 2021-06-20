@@ -51,6 +51,7 @@ public class Game extends JFrame implements Runnable {
         thread = new Thread(this);
         image = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+        System.out.println(pixels.length);
         textures = new ArrayList<Texture>();
         //Environment textures
         textures.add(Texture.wood);
@@ -58,38 +59,43 @@ public class Game extends JFrame implements Runnable {
         textures.add(Texture.bluestone);
         textures.add(Texture.stone);
         //Sprite textures
-        textures.add(Texture.barrel);
         textures.add(Texture.greenlight);
+        textures.add(Texture.barrel);
         textures.add(Texture.pillar);
 
         //Sprite array
         spriteList = new ArrayList<>();
-        spriteList.add(new Sprite(20.5, 11.5, 10));
-        spriteList.add(new Sprite(18.5, 4.5, 10));
-        spriteList.add(new Sprite(10.0, 4.5, 10));
-        spriteList.add(new Sprite(10.0, 12.5, 10));
-        spriteList.add(new Sprite(3.5, 6.5, 10));
-        spriteList.add(new Sprite(3.5, 20.5, 10));
-        spriteList.add(new Sprite(3.5, 14.5, 10));
-        spriteList.add(new Sprite(14.5, 20.5, 10));
-        spriteList.add(new Sprite(18.5, 10.5, 9));
-        spriteList.add(new Sprite(18.5, 11.5, 9));
-        spriteList.add(new Sprite(18.5, 12.5, 9));
-        spriteList.add(new Sprite(21.5, 1.5, 8));
-        spriteList.add(new Sprite(15.5, 1.5, 8));
-        spriteList.add(new Sprite(16.0, 1.8, 8));
-        spriteList.add(new Sprite(16.2, 1.2, 8));
-        spriteList.add(new Sprite(3.5, 2.5, 8));
-        spriteList.add(new Sprite(9.5, 15.5, 8));
-        spriteList.add(new Sprite(10.0, 15.1, 8));
-        spriteList.add(new Sprite(10.5, 15.8, 8));
+        //Lights
+        spriteList.add(new Sprite(20.5, 11.5, 4));
+        spriteList.add(new Sprite(18.5, 4.5, 4));
+        spriteList.add(new Sprite(10.0, 4.5, 4));
+        spriteList.add(new Sprite(10.0, 12.5, 4));
+        spriteList.add(new Sprite(3.5, 6.5, 4));
+        spriteList.add(new Sprite(3.5, 20.5, 4));
+        spriteList.add(new Sprite(3.5, 14.5, 4));
+        spriteList.add(new Sprite(14.5, 20.5, 4));
+
+        //Pillers
+        spriteList.add(new Sprite(18.5, 10.5, 6));
+        spriteList.add(new Sprite(18.5, 11.5, 6));
+        spriteList.add(new Sprite(18.5, 12.5, 6));
+
+        //Barrels
+        spriteList.add(new Sprite(21.5, 1.5, 5));
+        spriteList.add(new Sprite(15.5, 1.5, 5));
+        spriteList.add(new Sprite(16.0, 1.8, 5));
+        spriteList.add(new Sprite(16.2, 1.2, 5));
+        spriteList.add(new Sprite(3.5, 2.5, 5));
+        spriteList.add(new Sprite(9.5, 15.5, 5));
+        spriteList.add(new Sprite(10.0, 15.1, 5));
+        spriteList.add(new Sprite(10.5, 15.8, 5));
 
         camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
         screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480, 4.5, 4.5, 1, 0, 0, -.66, spriteList);
         addKeyListener(camera);
         setSize(640, 480);
         setResizable(false);
-        setTitle("3D Engine");
+        setTitle("Diyamond War");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(Color.black);
         setLocationRelativeTo(null);

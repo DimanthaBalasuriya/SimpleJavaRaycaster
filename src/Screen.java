@@ -163,19 +163,63 @@ public class Screen {
         //Sprite casting
         for (int i = 0; i < sprite.size(); i++) {
             spriteOrder[i] = i;
+            spriteDistance[i] = ((xPos - sprite.get(i).x) * (xPos - sprite.get(i).x) + (yPos - sprite.get(i).y) * (yPos - sprite.get(i).y));
         }
+        sortSprites(spriteOrder, spriteDistance, sprite.size());
+
+        for (int i = 0; i < sprite.size(); i++) {
+            double spriteX = sprite.get(spriteOrder[i]).x - xPos;
+            double spriteY = sprite.get(spriteOrder[i]).y - yPos;
+
+            double invDet = 1.0 / (xPlane * yDir - xDir * yPlane);
+
+            double transformX = invDet * (yDir * spriteX - xDir * spriteY);
+            double transformY = invDet * (-yPlane * spriteX + xPlane * spriteY);
+
+            int spriteScreenX = (int) ((width / 2) * (1 + transformX / transformY));
+            int spriteHeight = Math.abs((int) (height / transformY));
+            int drawStartY = -spriteHeight / 2 + height / 2;
+            if (drawStartY < 0) drawStartY = 0;
+            int drawEndY = spriteHeight / 2 + height / 2;
+            if (drawEndY >= height) drawEndY = height - 1;
+
+            int spriteWidth = Math.abs((int) (height / transformY));
+            int drawStartX = -spriteWidth / 2 + spriteScreenX;
+            if (drawStartX < 0) drawStartX = 0;
+            int drawEndX = spriteWidth / 2 + spriteScreenX;
+            if (drawEndX >= width) drawEndX = width - 1;
+
+            for (int stripe = drawStartX; stripe < drawEndX; stripe++) {
+                int texX = (256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * textures.get(1).SIZE / spriteWidth) / 256;
+                if (transformY > 0 && stripe > 0 && stripe < width && transformY < zbuffer[stripe]) {
+                    for (int y = drawStartY; y < drawEndY; y++) {
+                        int d = (y) * 256 - height * 128 + spriteHeight * 128;
+                        int texY = ((d * textures.get(1).SIZE) / spriteHeight) / 256;
+                        int color = textures.get(sprite.get(spriteOrder[i]).texture).pixels[64 * texY + texX];
+                        if ((color & 0x00FFFFFF) != 0) {//(x + width * (height - y - 1))
+                            pixels[i + y * width + stripe] = color;
+
+                            //i + y * (stripe)
+                            //i + y * (stripe) - work with glitch
+                            //i * y * width + stripe - correctly work but has some rendering glitch
+                        }
+                    }
+                }
+            }
+        }
+
         return pixels;
     }
 
-/*    private void sortSprites(int[] spriteOrder, double[] spriteDistance, int amount) {
+    private void sortSprites(int[] spriteOrder, double[] spriteDistance, int amount) {
         for (int i = 0; i < amount; i++) {
-            sprites.get(i).y = spriteDistance[i];
-            sprites.get(i).x = spriteOrder[i];
+            sprite.get(i).y = spriteDistance[i];
+            sprite.get(i).y = spriteOrder[i];
         }
         for (int i = 0; i < amount; i++) {
-            spriteDistance[i] = sprites.get(amount - i - 1).y;
-            spriteOrder[i] = (int) sprites.get(amount - i - 1).x;
+            spriteDistance[i] = sprite.get(amount - i - 1).y;
+            spriteOrder[i] = (int) sprite.get(amount - i - 1).y;
         }
-    }*/
+    }
 
 }
