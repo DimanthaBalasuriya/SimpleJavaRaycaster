@@ -27,13 +27,17 @@ public class Texture {
     }
 
     //Environment textures
-    public static Texture wood = new Texture("res/wood.png", 64);
-    public static Texture brick = new Texture("res/redbrick.png", 64);
+    public static Texture eagle = new Texture("res/eagle.png", 64);
+    public static Texture redbrick = new Texture("res/redbrick.png", 64);
+    public static Texture purplestone = new Texture("res/purplestone.png", 64);
+    public static Texture greystone = new Texture("res/greystone.png", 64);
     public static Texture bluestone = new Texture("res/bluestone.png", 64);
-    public static Texture stone = new Texture("res/greystone.png", 64);
+    public static Texture mossy = new Texture("res/mossy.png", 64);
+    public static Texture wood = new Texture("res/wood.png", 64);
+    public static Texture colorstone = new Texture("res/colorstone.png", 64);
 
     //Sprite textures
     public static Texture barrel = new Texture("res/barrel.png", 64);
-    public static Texture greenlight = new Texture("res/greenlight.png", 64);
     public static Texture pillar = new Texture("res/pillar.png", 64);
+    public static Texture greenlight = new Texture("res/greenlight.png", 64);
 }
