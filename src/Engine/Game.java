@@ -1,3 +1,5 @@
+package Engine;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -49,7 +51,7 @@ public class Game extends JFrame implements Runnable {
 
     Sprite sprite[] = new Sprite[numSprite];
 
-    //public ArrayList<Sprite> spriteList;
+    //public ArrayList<Engine.Sprite> spriteList;
 
     public Game() {
         thread = new Thread(this);
@@ -65,12 +67,12 @@ public class Game extends JFrame implements Runnable {
         textures.add(Texture.mossy);
         textures.add(Texture.wood);
         textures.add(Texture.colorstone);
-        //Sprite textures
+        //Engine.Sprite textures
         textures.add(Texture.barrel);
         textures.add(Texture.pillar);
         textures.add(Texture.greenlight);
 
-        //Sprite array
+        //Engine.Sprite array
         //spriteList = new ArrayList<>();
         //Lights
         sprite[0] = new Sprite(20.5, 11.5, 10);

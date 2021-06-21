@@ -1,3 +1,5 @@
+package Engine;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -36,7 +38,7 @@ public class Texture {
     public static Texture wood = new Texture("res/wood.png", 64);
     public static Texture colorstone = new Texture("res/colorstone.png", 64);
 
-    //Sprite textures
+    //Engine.Sprite textures
     public static Texture barrel = new Texture("res/barrel.png", 64);
     public static Texture pillar = new Texture("res/pillar.png", 64);
     public static Texture greenlight = new Texture("res/greenlight.png", 64);

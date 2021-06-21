@@ -1,18 +1,18 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Screen {
+public class Engine.Screen {
     public int[][] map;
     public int mapWidth, mapHeight, width, height;
     public double xPos, yPos, xDir, yDir, xPlane, yPlane;
-    public ArrayList<Texture> textures;
+    public ArrayList<Engine.Texture> textures;
 
-    public ArrayList<Sprite> sprite;
+    public ArrayList<Engine.Sprite> sprite;
     public int spriteOrder[];
     public double spriteDistance[];
     public double zbuffer[];
 
-    public Screen(int[][] m, int mapW, int mapH, ArrayList<Texture> tex, int w, int h, double x, double y, double xd, double yd, double xp, double yp, ArrayList<Sprite> spritea) {
+    public Engine.Screen(int[][] m, int mapW, int mapH, ArrayList<Engine.Texture> tex, int w, int h, double x, double y, double xd, double yd, double xp, double yp, ArrayList<Engine.Sprite> spritea) {
         map = m;
         mapWidth = mapW;
         mapHeight = mapH;
@@ -31,7 +31,7 @@ public class Screen {
         zbuffer = new double[width];
     }
 
-    public int[] update(Camera camera, int[] pixels) {
+    public int[] update(Engine.Camera camera, int[] pixels) {
         for (int n = 0; n < pixels.length / 2; n++) {
             if (pixels[n] != Color.DARK_GRAY.getRGB()) pixels[n] = Color.DARK_GRAY.getRGB();
         }
@@ -160,7 +160,7 @@ public class Screen {
             zbuffer[x] = perpWallDist;
         }
 
-        //Sprite casting
+        //Engine.Sprite casting
         for (int i = 0; i < sprite.size(); i++) {
             spriteOrder[i] = i;
             spriteDistance[i] = Math.abs(((xPos - sprite.get(i).x) * (xPos - sprite.get(i).x) + (yPos - sprite.get(i).y) * (yPos - sprite.get(i).y)));

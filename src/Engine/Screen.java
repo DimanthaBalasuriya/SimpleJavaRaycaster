@@ -1,3 +1,5 @@
+package Engine;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -160,7 +162,7 @@ public class Screen {
             zbuffer[x] = perpWallDist;
         }
 
-        //Sprite casting
+        //Engine.Sprite casting
         for (int i = 0; i < sprites.length; i++) {
             spriteOrder[i] = i;
             spriteDistance[i] = ((xPos - sprites[i].x) * (xPos - sprites[i].x) + (yPos - sprites[i].y) * (yPos - sprites[i].y));

@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 
-public class Game extends JFrame implements Runnable {
+public class Engine.Game extends JFrame implements Runnable {
 
     private static final long serialVersionUID = 1L;
     public int mapWidth = 24;
@@ -14,9 +14,9 @@ public class Game extends JFrame implements Runnable {
     private boolean running;
     private BufferedImage image;
     public int[] pixels;
-    public ArrayList<Texture> textures;
-    public Camera camera;
-    public Screen screen;
+    public ArrayList<Engine.Texture> textures;
+    public Engine.Camera camera;
+    public Engine.Screen screen;
     public static int[][] map =
             {
                     {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 6, 4, 4, 6, 4, 6, 4, 4, 4, 6, 4},
@@ -45,56 +45,56 @@ public class Game extends JFrame implements Runnable {
                     {2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5}
             };
 
-    public ArrayList<Sprite> spriteList;
+    public ArrayList<Engine.Sprite> spriteList;
 
-    public Game() {
+    public Engine.Game() {
         thread = new Thread(this);
         image = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-        textures = new ArrayList<Texture>();
+        textures = new ArrayList<Engine.Texture>();
         //Environment textures
-        textures.add(Texture.eagle);
-        textures.add(Texture.redbrick);
-        textures.add(Texture.purplestone);
-        textures.add(Texture.greystone);
-        textures.add(Texture.bluestone);
-        textures.add(Texture.mossy);
-        textures.add(Texture.wood);
-        textures.add(Texture.colorstone);
-        //Sprite textures
-        textures.add(Texture.barrel);
-        textures.add(Texture.pillar);
-        textures.add(Texture.greenlight);
+        textures.add(Engine.Texture.eagle);
+        textures.add(Engine.Texture.redbrick);
+        textures.add(Engine.Texture.purplestone);
+        textures.add(Engine.Texture.greystone);
+        textures.add(Engine.Texture.bluestone);
+        textures.add(Engine.Texture.mossy);
+        textures.add(Engine.Texture.wood);
+        textures.add(Engine.Texture.colorstone);
+        //Engine.Sprite textures
+        textures.add(Engine.Texture.barrel);
+        textures.add(Engine.Texture.pillar);
+        textures.add(Engine.Texture.greenlight);
 
-        //Sprite array
+        //Engine.Sprite array
         spriteList = new ArrayList<>();
         //Lights
-        spriteList.add(new Sprite(20.5, 11.5, 10));
-        spriteList.add(new Sprite(18.5, 4.5, 10));
-        spriteList.add(new Sprite(10.0, 4.5, 10));
-        spriteList.add(new Sprite(10.0, 12.5, 10));
-        spriteList.add(new Sprite(3.5, 6.5, 10));
-        spriteList.add(new Sprite(3.5, 20.5, 10));
-        spriteList.add(new Sprite(3.5, 14.5, 10));
-        spriteList.add(new Sprite(14.5, 20.5, 10));
+        spriteList.add(new Engine.Sprite(20.5, 11.5, 10));
+        spriteList.add(new Engine.Sprite(18.5, 4.5, 10));
+        spriteList.add(new Engine.Sprite(10.0, 4.5, 10));
+        spriteList.add(new Engine.Sprite(10.0, 12.5, 10));
+        spriteList.add(new Engine.Sprite(3.5, 6.5, 10));
+        spriteList.add(new Engine.Sprite(3.5, 20.5, 10));
+        spriteList.add(new Engine.Sprite(3.5, 14.5, 10));
+        spriteList.add(new Engine.Sprite(14.5, 20.5, 10));
 
         //Pillers
-        spriteList.add(new Sprite(18.5, 10.5, 9));
-        spriteList.add(new Sprite(18.5, 11.5, 9));
-        spriteList.add(new Sprite(18.5, 12.5, 9));
+        spriteList.add(new Engine.Sprite(18.5, 10.5, 9));
+        spriteList.add(new Engine.Sprite(18.5, 11.5, 9));
+        spriteList.add(new Engine.Sprite(18.5, 12.5, 9));
 
         //Barrels
-        spriteList.add(new Sprite(21.5, 1.5, 8));
-        spriteList.add(new Sprite(15.5, 1.5, 8));
-        spriteList.add(new Sprite(16.0, 1.8, 8));
-        spriteList.add(new Sprite(16.2, 1.2, 8));
-        spriteList.add(new Sprite(3.5, 2.5, 8));
-        spriteList.add(new Sprite(9.5, 15.5, 8));
-        spriteList.add(new Sprite(10.0, 15.1, 8));
-        spriteList.add(new Sprite(10.5, 15.8, 8));
+        spriteList.add(new Engine.Sprite(21.5, 1.5, 8));
+        spriteList.add(new Engine.Sprite(15.5, 1.5, 8));
+        spriteList.add(new Engine.Sprite(16.0, 1.8, 8));
+        spriteList.add(new Engine.Sprite(16.2, 1.2, 8));
+        spriteList.add(new Engine.Sprite(3.5, 2.5, 8));
+        spriteList.add(new Engine.Sprite(9.5, 15.5, 8));
+        spriteList.add(new Engine.Sprite(10.0, 15.1, 8));
+        spriteList.add(new Engine.Sprite(10.5, 15.8, 8));
 
-        camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
-        screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480, 4.5, 4.5, 1, 0, 0, -.66, spriteList);
+        camera = new Engine.Camera(4.5, 4.5, 1, 0, 0, -.66);
+        screen = new Engine.Screen(map, mapWidth, mapHeight, textures, 640, 480, 4.5, 4.5, 1, 0, 0, -.66, spriteList);
         addKeyListener(camera);
         setSize(640, 480);
         setResizable(false);
@@ -150,7 +150,7 @@ public class Game extends JFrame implements Runnable {
     }
 
     public static void main(String[] args) {
-        Game game = new Game();
+        Engine.Game game = new Engine.Game();
     }
 }
 
