@@ -51,8 +51,6 @@ public class Game extends JFrame implements Runnable {
 
     Sprite sprite[] = new Sprite[numSprite];
 
-    //public ArrayList<Engine.Sprite> spriteList;
-
     public Game() {
         thread = new Thread(this);
         image = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
@@ -72,8 +70,7 @@ public class Game extends JFrame implements Runnable {
         textures.add(Texture.pillar);
         textures.add(Texture.greenlight);
 
-        //Engine.Sprite array
-        //spriteList = new ArrayList<>();
+        //Sprite array
         //Lights
         sprite[0] = new Sprite(20.5, 11.5, 10);
         sprite[1] = new Sprite(18.5, 4.5, 10);

@@ -1,7 +1,7 @@
 package Engine;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Screen {
     public int[][] map;
@@ -10,9 +10,14 @@ public class Screen {
     public ArrayList<Texture> textures;
 
     public Sprite sprites[];
-    public int spriteOrder[];
-    public double spriteDistance[];
     public double zbuffer[];
+
+    public int order[] = new int[19];
+    public double distance[] = new double[19];
+
+    public ArrayList<Integer> ord = new ArrayList<>();
+    public ArrayList<Double> dist = new ArrayList<>();
+    public Map<Integer, Double> distanceOrder = new HashMap<>();
 
     public Screen(int[][] m, int mapW, int mapH, ArrayList<Texture> tex, int w, int h, double x, double y, double xd, double yd, double xp, double yp, Sprite[] sprite) {
         map = m;
@@ -28,8 +33,6 @@ public class Screen {
         xPlane = xp;
         yPlane = yp;
         sprites = sprite;
-        spriteOrder = new int[19];
-        spriteDistance = new double[19];
         zbuffer = new double[width];
     }
 
@@ -145,7 +148,7 @@ public class Screen {
             if (side == 0) {
                 wallX = (camera.yPos + perpWallDist * rayDirY);
             } else {
-                wallX = camera.xPos + perpWallDist * rayDirX;
+                wallX = (camera.xPos + perpWallDist * rayDirX);
             }
             wallX -= Math.floor(wallX);
             int texX = (int) (wallX * (textures.get(texNum).SIZE));
@@ -162,21 +165,20 @@ public class Screen {
             zbuffer[x] = perpWallDist;
         }
 
-        //Engine.Sprite casting
+        //Sprite casting
         for (int i = 0; i < sprites.length; i++) {
-            spriteOrder[i] = i;
-            spriteDistance[i] = ((xPos - sprites[i].x) * (xPos - sprites[i].x) + (yPos - sprites[i].y) * (yPos - sprites[i].y));
+            distanceOrder.put(i, ((camera.xPos - sprites[i].x) * (camera.xPos - sprites[i].x) + (camera.yPos - sprites[i].y) * (camera.yPos - sprites[i].y)));
         }
-        //sortSprites(spriteOrder, spriteDistance, sprites.length);
+        sortSprites();
 
         for (int i = 0; i < sprites.length; i++) {
-            double spriteX = sprites[spriteOrder[i]].x - xPos;
-            double spriteY = sprites[spriteOrder[i]].y - yPos;
+            double spriteX = sprites[ord.get(i)].x - camera.xPos;
+            double spriteY = sprites[ord.get(i)].y - camera.yPos;
 
-            double invDet = 1.0 / (xPlane * yDir - xDir * yPlane);
+            double invDet = 1.0 / (camera.xPlane * camera.yDir - camera.xDir * camera.yPlane);
 
-            double transformX = invDet * (yDir * spriteX - xDir * spriteY);
-            double transformY = invDet * (-yPlane * spriteX + xPlane * spriteY);
+            double transformX = invDet * (camera.yDir * spriteX - camera.xDir * spriteY);
+            double transformY = invDet * (-camera.yPlane * spriteX + camera.xPlane * spriteY);
 
             int spriteScreenX = (int) ((width / 2) * (1 + transformX / transformY));
 
@@ -207,7 +209,7 @@ public class Screen {
                     for (int y = drawStartY; y < drawEndY; y++) {
                         int d = (y) * 256 - height * 128 + spriteHeight * 128;
                         int texY = ((d * 64) / spriteHeight) / 256;
-                        int color = textures.get(sprites[spriteOrder[i]].texture).pixels[64 * texY + texX];
+                        int color = textures.get(sprites[ord.get(i)].texture).pixels[64 * texY + texX];
                         if ((color & 0x00FFFFFF) != 0) {//(x + width * (height - y - 1))
                             pixels[i + y * width + stripe] = color;
 
@@ -218,34 +220,26 @@ public class Screen {
                     }
                 }
             }
+
         }
+        ord.clear();
+        dist.clear();
         return pixels;
     }
 
+    private void sortSprites() {
 
-    private void sortSprites(int[] spriteOrder, double[] spriteDistance, int amount) {
-        for (int i = 0; i < spriteDistance.length; i++) {
-            System.out.print(spriteDistance[i] + ", ");
-        }
-        for (int i = 0; i < amount; i++) {
-            sprites[i].y = spriteDistance[i];
-            sprites[i].y = spriteOrder[i];
-            System.out.println(spriteDistance[i] + ", " + spriteOrder[i]);
-        }
-        System.exit(0);
-        for (int i = 0; i < amount; i++) {
-            spriteDistance[i] = sprites[amount - i - 1].y;
-            spriteOrder[i] = (int) sprites[amount - i - 1].y;
-            // System.out.println(spriteDistance[i]);
+        LinkedHashMap<Integer, Double> reverseOrder = new LinkedHashMap<>();
+        distanceOrder.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder())).forEachOrdered(x -> reverseOrder.put(x.getKey(), x.getValue()));
+        Iterator<Map.Entry<Integer, Double>> entry = reverseOrder.entrySet().iterator();
+        while (entry.hasNext()) {
+            Map.Entry<Integer, Double> ent = entry.next();
+            int key = ent.getKey();
+            double val = ent.getValue();
+            ord.add(key);
+            dist.add(val);
         }
 
-        for (int i = 0; i < spriteDistance.length; i++) {
-            // System.out.print(spriteDistance[i] + ", ");
-        }
-        System.out.println();
-        for (int i = 0; i < spriteOrder.length; i++) {
-            //System.out.print(spriteOrder[i] + ", ");
-        }
     }
 
 

@@ -97,7 +97,7 @@ public class GameGUI extends javax.swing.JFrame {
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>
+    }
 
     private void btn_gameActionPerformed(java.awt.event.ActionEvent evt) {
         Level l = new Level();

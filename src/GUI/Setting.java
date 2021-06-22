@@ -83,8 +83,7 @@ public class Setting extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(255, 204, 0));
         jLabel15.setText("ESC");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/DiamondWarGuiHome.png"))); // NOI18N
-        jLabel1.setText("Forward");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/DiamondWarGuiHome.png")));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
